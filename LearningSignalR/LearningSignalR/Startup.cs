@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -32,6 +33,8 @@ namespace LearningSignalR
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "LearningSignalR", Version = "v1" });
             });
+            services.AddSingleton<LearningHub>();
+            //services.AddSingleton<IHubContext<LearningHub>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

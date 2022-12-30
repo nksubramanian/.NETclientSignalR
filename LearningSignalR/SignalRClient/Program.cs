@@ -52,6 +52,8 @@ namespace SignalRClient
 
             hubConnection.On<string>("ReceiveMessage", message => ReceiveMessage(message));
 
+            hubConnection.On<string>("GetRows", message => GetRows(message));
+
             try
             {
                 hubConnection.StartAsync().Wait();
@@ -127,6 +129,13 @@ namespace SignalRClient
             {
                 Console.WriteLine($"SignalR Hub Message: {message}");
             }
+
+            void GetRows(string message)
+            {
+                Console.WriteLine($"GetRows is called: {message}");
+                hubConnection.SendAsync("BroadcastMessage", message + "getrows").Wait();
+            }
+
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace LearningSignalR
@@ -8,7 +9,8 @@ namespace LearningSignalR
     {
         public async Task BroadcastMessage(string message)
         {
-            await Clients.All.ReceiveMessage(message);
+            Queues.q.Enqueue(message);
+            //await Clients.All.ReceiveMessage(message);
         }
 
         public async Task SendToCaller(string message)
@@ -25,6 +27,15 @@ namespace LearningSignalR
         {
             await Clients.Group(groupName).ReceiveMessage(message);
         }
+
+        public string ADIGetRows(string message)
+        {
+            Clients.All.GetRows(message);
+            Thread.Sleep(2000);
+            string c = Queues.q.Dequeue();
+            return c;
+        }
+
 
         public async Task AddUserToGroup(string groupName)
         {
